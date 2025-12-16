@@ -43,7 +43,11 @@ Step-by-Step:
 2. Use the `filter()` method to apply the callback to the array.
 3. Return the filtered result.
 */
+function filterProducts(productsArray, callback) {
+  return productsArray.filter(callback);
+}
 
+const inStockProducts = filterProducts(products, product => product.inStock);
 
 /*
 🔹 Task 2: Transform Product Names
@@ -55,7 +59,7 @@ Step-by-Step:
 2. Extract and transform the `name` property to uppercase.
 3. Store the result in a new variable.
 */
-
+const uppercasedNames = products.map(product => product.name.toUpperCase());
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -70,8 +74,19 @@ Step-by-Step:
 3. Use this returned function inside a `forEach()` call to add a new property, `salePrice`, to each product object.
 4. Print the array of products to verify the new property and value have been added to each product object.
 */
+function applyDiscount(discountPercent) {
+  return function(product) {
+    const discountAmount = (product.price * discountPercent) / 100;
+    let prciceAfterDiscount = product.price - discountAmount;
+    return prciceAfterDiscount
+  };
+} 
 
-
+const discount10Percent = applyDiscount(50);  
+products.forEach(product => {
+   let sale = discount10Percent(product);
+   product.salePrice = sale;
+});
 /*
 🔹 Task 4: Calculate Total Inventory Value
 
@@ -82,6 +97,9 @@ Step-by-Step:
 2. Add only the prices of products where `inStock` is true.
 3. Store the total in a new variable.
 */
+const totalValueInStock = products.reduce((total, product) => {
+  return product.inStock ? total + product.price : total;
+}, 0);  
 
 
 // ============================================
@@ -92,3 +110,11 @@ Step-by-Step:
 // console.log("Uppercased names:", ...);
 // console.log("Discounted products:", ...);
 // console.log("Total value in stock:", ...);
+
+console.log("Filtered products (in stock):", inStockProducts);    
+
+console.log("Uppercased names:", uppercasedNames);
+
+console.log("Discounted products:", products);
+
+console.log("Total value in stock:", totalValueInStock);
